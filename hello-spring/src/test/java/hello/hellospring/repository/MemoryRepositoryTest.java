@@ -3,8 +3,6 @@ package hello.hellospring.repository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-import hello.hellospring.MemberRepository;
-import hello.hellospring.MemoryMemberRepository;
 import hello.hellospring.domain.Member;
 
 import static org.assertj.core.api.Assertions.*;

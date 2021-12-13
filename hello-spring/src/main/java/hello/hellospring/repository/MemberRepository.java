@@ -1,4 +1,4 @@
-package hello.hellospring;
+package hello.hellospring.repository;
 
 import java.util.List;
 import java.util.Optional;
