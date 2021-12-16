@@ -1,11 +1,5 @@
 package hello.hellospring.repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,178 +7,62 @@ import java.util.Optional;
 
 import javax.sql.DataSource;
 
-import org.springframework.jdbc.datasource.DataSourceUtils;
-import org.springframework.stereotype.Repository;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import hello.hellospring.domain.Member;
 
 public class JdbcMemberRepository implements MemberRepository {
 
-	private final DataSource dataSource;
+	private final JdbcTemplate jdbcTemplate;
 
 	public JdbcMemberRepository(DataSource dataSource) {
-		this.dataSource = dataSource;
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
 	@Override
 	public Member save(Member member) {
 		// TODO Auto-generated method stub
-		String sql = "insert into member(name) values(?)";
+		SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
+		jdbcInsert.withTableName("member").usingGeneratedKeyColumns("id");
 
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = getConnection();
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("name", member.getName());
 
-			pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			pstmt.setString(1, member.getName());
-			pstmt.executeUpdate();
-			rs = pstmt.getGeneratedKeys();
-
-			if (rs.next()) {
-				member.setId(rs.getLong(1));
-			} else {
-				throw new SQLException("id 조회 실패");
-			}
-			return member;
-		} catch (Exception e) {
-			throw new IllegalStateException(e);
-		} finally {
-			close(conn, pstmt, rs);
-		}
-	}
-
-	private void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
-		// TODO Auto-generated method stub
-		try {
-			if (rs != null) {
-				rs.close();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			if (pstmt != null) {
-				rs.close();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			if (conn != null) {
-				close(conn);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void close(Connection conn) throws SQLException {
-		// TODO Auto-generated method stub
-		DataSourceUtils.releaseConnection(conn, dataSource);
+		Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
+		member.setId(key.longValue());
+		return member;
 	}
 
 	@Override
 	public Optional<Member> findById(Long id) {
 		// TODO Auto-generated method stub
-		String sql = "select * from member where id =?";
-
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = getConnection();
-
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setLong(1, id);
-
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				Member member = new Member();
-				member.setId(rs.getLong("id"));
-				member.setName(rs.getString("name"));
-				return Optional.of(member);
-
-			} else {
-				return Optional.empty();
-			}
-		} catch (Exception e) {
-			throw new IllegalStateException(e);
-		} finally {
-			close(conn, pstmt, rs);
-		}
-	}
-
-	private Connection getConnection() {
-		// TODO Auto-generated method stub
-		return DataSourceUtils.getConnection(dataSource);
+		List<Member> result = jdbcTemplate.query("select * from member where id =?", memberRowMapper(),id);
+		return result.stream().findAny();
 	}
 
 	@Override
 	public Optional<Member> findByName(String name) {
 		// TODO Auto-generated method stub
-		String sql = "select * from member where name =?";
-
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = getConnection();
-
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, name);
-
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				Member member = new Member();
-				member.setId(rs.getLong("id"));
-				member.setName(rs.getString("name"));
-				return Optional.of(member);
-
-			}
-
-			return Optional.empty();
-		} catch (Exception e) {
-			throw new IllegalStateException(e);
-		} finally {
-			close(conn, pstmt, rs);
-		}
+		List<Member> result = jdbcTemplate.query("select * from member where name =?", memberRowMapper(), name);
+		return result.stream().findAny();
 	}
 
 	@Override
 	public List<Member> findAll() {
-		String sql = "select * from member";
-
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = getConnection();
-
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			List<Member> members = new ArrayList<>();
-			while (rs.next()) {
-				Member member = new Member();
-				member.setId(rs.getLong("id"));
-				member.setName(rs.getString("name"));
-				members.add(member);
-
-			}
-
-			return members;
-		} catch (Exception e) {
-			throw new IllegalStateException(e);
-		} finally {
-			close(conn, pstmt, rs);
-		}
-
+		return jdbcTemplate.query("select * from member", memberRowMapper());
 	}
-	/*
-	public void clearStore() {
-		store.clear();
+
+	private RowMapper<Member> memberRowMapper() {
+		// TODO Auto-generated method stub
+		return (rs, rowNum) -> {
+			Member member = new Member();
+			member.setId(rs.getLong("id"));
+			member.setName(rs.getString("name"));
+			return member;
+		};
 	}
-	*/
 
 }
