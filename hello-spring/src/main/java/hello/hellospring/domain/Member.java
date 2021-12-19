@@ -30,6 +30,10 @@ public class Member {
 	public void setName(String name) {
 		this.name = name;
 	}
+	public Object getGrade() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 
 }
