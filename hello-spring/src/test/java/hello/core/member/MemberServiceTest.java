@@ -16,12 +16,10 @@ class MemberServiceTest {
 	@Test
 	void 회원가입() {
 		// given
-		Member member = new Member(1L,"memberA",Grade.VIP);
-		
+		Member member = new Member(1L,"memberA",Grade.VIP)
 		// when
 		memberService.join(member);
 		Member findMember = memberService.findMember(1L);
-
 		// then
 		assertThat(member).isEqualTo(findMember);
 
