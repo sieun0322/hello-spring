@@ -18,6 +18,7 @@ import org.springframework.context.annotation.FilterType;
         basePackages = "hello.core.member",
         //기존 AppConfig 제외. 일반적으로 사용X
         excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION,classes = Configuration.class)
+
 )
 public class AutoAppConfig {
 }
