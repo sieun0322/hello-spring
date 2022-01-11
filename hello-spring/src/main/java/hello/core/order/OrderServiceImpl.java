@@ -36,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
 
 	//lombok 자동 생성으로 변경
 	@Autowired //생략 가능
-	public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy){//이름으로 2개이상 조회 해결
+	public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy rateDiscountPolicy){//이름으로 2개이상 조회 해결
 		this.memberRepository = memberRepository;
 		this.discountPolicy = discountPolicy;
 	}
