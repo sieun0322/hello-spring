@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor //final 변수 생성자 자동생성
 public class OrderServiceImpl implements OrderService {
 
 	// 필드 주입 +@Autowired : 외부에서 변경 불가. 테스트시 사용.
@@ -33,14 +32,14 @@ public class OrderServiceImpl implements OrderService {
 	}
 	*/
 
-	/*
+
 	//lombok 자동 생성으로 변경
 	@Autowired //생략 가능
 	public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy){
 		this.memberRepository = memberRepository;
 		this.discountPolicy = discountPolicy;
 	}
-	*/
+
 
 
 	/*
