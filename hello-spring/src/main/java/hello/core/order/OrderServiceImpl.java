@@ -8,6 +8,7 @@ import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -35,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
 
 	//lombok 자동 생성으로 변경
 	@Autowired //생략 가능
-	public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy){
+	public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy){//이름으로 2개이상 조회 해결
 		this.memberRepository = memberRepository;
 		this.discountPolicy = discountPolicy;
 	}
