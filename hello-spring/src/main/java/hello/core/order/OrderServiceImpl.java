@@ -1,5 +1,6 @@
 package hello.core.order;
 
+import hello.core.annotation.MainDiscountPolicy;
 import hello.core.discount.DiscountPolicy;
 import hello.core.discount.FixDiscountPolicy;
 import hello.core.discount.RateDiscountPolicy;
@@ -36,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
 
 	//lombok 자동 생성으로 변경
 	@Autowired //생략 가능
-	public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy){//이름으로 2개이상 조회 해결
+	public OrderServiceImpl(MemberRepository memberRepository, @MainDiscountPolicy DiscountPolicy discountPolicy){//이름으로 2개이상 조회 해결
 		this.memberRepository = memberRepository;
 		this.discountPolicy = discountPolicy;
 	}
