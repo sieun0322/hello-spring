@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -48,10 +49,10 @@ public class SingletonWithPrototypeTest1 {
 
         //지정한 빈을 컨테이너 대신 찾아주는 DL서비스 제공
         @Autowired
-        private ObjectProvider<PrototypeBean> prototypeBeanProvider;
+        private Provider<PrototypeBean> prototypeBeanProvider;
 
         public int login(){
-            PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
+            PrototypeBean prototypeBean = prototypeBeanProvider.get();
             prototypeBean.addCount();
             return prototypeBean.getCount();
         }
