@@ -1,6 +1,7 @@
 package hello.core.common;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -9,9 +10,10 @@ import java.util.UUID;
 
 /**
  * request : 웹에 필요한 정보는 웹에서만 사용가능.
+ * proxy : 가짜객체 생성, provider와 같이 진짜 객체 조회를 꼭 필요시점까지 지연처리한다.
  */
 @Component
-@Scope(value = "request")
+@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class MyLogger {
 
     private String uuid;
