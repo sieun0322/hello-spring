@@ -1,7 +1,6 @@
-package hello.advanced.v0;
+package hello.advanced.app.v0;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 @Service
