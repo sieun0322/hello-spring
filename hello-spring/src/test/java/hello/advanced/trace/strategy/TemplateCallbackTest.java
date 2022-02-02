@@ -1,4 +1,4 @@
-package hello.advanced.trace.strategy.code.strategy;
+package hello.advanced.trace.strategy;
 
 import hello.advanced.trace.strategy.code.template.Callback;
 import hello.advanced.trace.strategy.code.template.TimeLogTemplate;
