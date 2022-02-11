@@ -4,7 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ServiceImpl implements ServiceInterface{
-    public void call(){
+
+    @Override
+    public void save() {
         log.info("ConcreteService 호출");
     }
 }
