@@ -1,4 +1,4 @@
-package hello.advanced;
+package hello.aop;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 
 @SpringBootApplication
 @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
-public class AdvancedApplication {
-    public static void main1(String[] args){
-        SpringApplication.run(AdvancedApplication.class,args);
+public class AopApplication {
+    public static void main(String[] args){
+        SpringApplication.run(AopApplication.class,args);
     }
 }
