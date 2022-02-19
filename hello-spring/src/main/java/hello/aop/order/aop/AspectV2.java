@@ -9,6 +9,7 @@ import org.aspectj.lang.annotation.Pointcut;
 @Slf4j
 @Aspect
 public class AspectV2 {
+
     @Pointcut("execution(* hello.aop.order..*(..))")
     private void allOrder(){} //pointcut signature
 
