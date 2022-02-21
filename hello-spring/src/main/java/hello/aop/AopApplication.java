@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
-@Import(AspectV4Pointcut.class)
+//@Import(AspectV4Pointcut.class)
 public class AopApplication {
     public static void main(String[] args){
         SpringApplication.run(AopApplication.class,args);
