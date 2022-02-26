@@ -77,6 +77,67 @@ public class ExecutionTest {
         pointcut.setExpression("execution(* hello.aop..*.*(..))");//반환타입, 메서드 이름, 파라미터
         Assertions.assertThat(pointcut.matches(helloMethod,MemberServiceImpl.class)).isTrue();
     }
+    @Test
+    void typeExactMatch(){
+        pointcut.setExpression("execution(* hello.aop.member.MemberServiceImpl.*(..))");//반환타입, 메서드 이름, 파라미터
+        Assertions.assertThat(pointcut.matches(helloMethod,MemberServiceImpl.class)).isTrue();
+    }
+
+    /**
+     * 부모 interface 타입매치
+     */
+    @Test
+    void typeMatchSuperType(){
+        pointcut.setExpression("execution(* hello.aop.member.MemberService.*(..))");//반환타입, 메서드 이름, 파라미터
+        Assertions.assertThat(pointcut.matches(helloMethod,MemberServiceImpl.class)).isTrue();
+    }
+
+    @Test
+    void typeMatchInternal() throws NoSuchMethodException {
+        pointcut.setExpression("execution(* hello.aop.member.MemberServiceImpl.*(..))");//반환타입, 메서드 이름, 파라미터
+        Method internalMethod = MemberServiceImpl.class.getMethod("internal",String.class);
+        Assertions.assertThat(pointcut.matches(internalMethod,MemberServiceImpl.class)).isTrue();
+    }
+    /**
+     * 부모 interface에 선언된 메서드만 매칭 가능
+     */
+    @Test
+    void typeMatchNoSuperTypeMethodFalse() throws NoSuchMethodException {
+        pointcut.setExpression("execution(* hello.aop.member.MemberService.*(..))");//반환타입, 메서드 이름, 파라미터
+        Method internalMethod = MemberServiceImpl.class.getMethod("internal",String.class);
+        Assertions.assertThat(pointcut.matches(internalMethod,MemberServiceImpl.class)).isFalse();
+    }
+    //파라미터 매칭
+    @Test
+    void argsMatch() {
+        pointcut.setExpression("execution(* *(String))");//반환타입, 메서드 이름, 파라미터
+        Assertions.assertThat(pointcut.matches(helloMethod,MemberServiceImpl.class)).isTrue();
+    }
+    @Test
+    void argsMatchNoArgs() {
+        pointcut.setExpression("execution(* *())");//반환타입, 메서드 이름, 파라미터
+        Assertions.assertThat(pointcut.matches(helloMethod,MemberServiceImpl.class)).isFalse();
+    }
+    //정확히 하나의 파라미터 허용, 모든 타입 허용
+    @Test
+    void argsMatchStar() {
+        pointcut.setExpression("execution(* *(*))");//반환타입, 메서드 이름, 파라미터
+        Assertions.assertThat(pointcut.matches(helloMethod,MemberServiceImpl.class)).isTrue();
+    }
+    //(),(Xxx),(Xxx,Xxx)
+    @Test
+    void argsMatchAll() {
+        pointcut.setExpression("execution(* *(..))");//반환타입, 메서드 이름, 파라미터
+        Assertions.assertThat(pointcut.matches(helloMethod,MemberServiceImpl.class)).isTrue();
+    }
+    //(String),(String,Xxx),(String,Xxx,Xxx)
+    @Test
+    void argsMatchComplex() {
+        pointcut.setExpression("execution(* *(String,..))");//반환타입, 메서드 이름, 파라미터
+        Assertions.assertThat(pointcut.matches(helloMethod,MemberServiceImpl.class)).isTrue();
+    }
+
+
 
 
 }
