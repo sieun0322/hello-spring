@@ -1,4 +1,4 @@
-package hello.aop;
+package hello.aop.proxyvs;
 
 import hello.aop.member.MemberService;
 import hello.aop.member.MemberServiceImpl;
