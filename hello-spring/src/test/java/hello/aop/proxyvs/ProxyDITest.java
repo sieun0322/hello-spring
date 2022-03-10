@@ -16,6 +16,15 @@ import org.springframework.context.annotation.Import;
  * 인터페이스 기반으로 의존관계를 주입해야 한다.
  *
  * 구체클래스 기반이 필요하다면 CGLIB 사용해야 한다.
+ *
+ * CGLIB 단점
+ * - 대상 클래스에 기본 생성자 필수
+ * - 생성자 2번 호출 문제
+ *   : 1) 실제 TARGET 객체를 생성할 때
+ *     2) 프록시 객체를 생성할 때 부모 클래스의 생성자 호출
+ *     생성자 로그 중복, 계산 로직 포함시 문제
+ * - final 클래스/메서드 사용 불가
+ *
  */
 @Slf4j
 //@SpringBootTest(properties ={"spring.aop.proxy-target-class=false"}) // JDK
