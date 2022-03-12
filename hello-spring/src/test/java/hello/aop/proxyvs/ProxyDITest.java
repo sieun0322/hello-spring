@@ -19,12 +19,15 @@ import org.springframework.context.annotation.Import;
  *
  * CGLIB 단점
  * - 대상 클래스에 기본 생성자 필수
+ *   => 스프링 4.0 부터 objenesis 라이브러리로 생성자 호출없이 객체 생성 가능해짐.
  * - 생성자 2번 호출 문제
  *   : 1) 실제 TARGET 객체를 생성할 때
  *     2) 프록시 객체를 생성할 때 부모 클래스의 생성자 호출
  *     생성자 로그 중복, 계산 로직 포함시 문제
+ *   => 스프링 4.0 부터 objenesis 라이브러리로 생성자 1번 호출.
  * - final 클래스/메서드 사용 불가
  *
+ * + 스프링 2.0 부터 CGLIB 기본 사용
  */
 @Slf4j
 //@SpringBootTest(properties ={"spring.aop.proxy-target-class=false"}) // JDK
