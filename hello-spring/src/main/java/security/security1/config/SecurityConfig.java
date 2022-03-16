@@ -31,7 +31,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("name")
                 .loginPage("/loginForm")// 권한 없을시, 로그인 화면으로 이동.
                 .loginProcessingUrl("/login")//시큐리티가 대신 로그인 진행.
-                .defaultSuccessUrl("/");
+                .defaultSuccessUrl("/")
+                .and()
+                .oauth2Login()
+                .loginPage("/loginForm");//구글 로인이 완료된 뒤의 후처리 필요
 
     }
 
