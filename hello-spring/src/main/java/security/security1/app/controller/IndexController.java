@@ -23,6 +23,7 @@ import security.security1.config.auth.PrincipalDetails;
 public class IndexController {
     @Autowired
     private MemberRepository memberRepository;
+
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -53,6 +54,7 @@ public class IndexController {
 
     @GetMapping("/user")
     public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails){
+        System.out.println("principal:"+principalDetails.getMember());
         return "user";
     }
     @GetMapping("/admin")
