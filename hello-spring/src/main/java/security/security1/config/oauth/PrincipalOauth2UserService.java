@@ -15,8 +15,7 @@ import security.security1.config.auth.PrincipalDetails;
 @Service
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();
 
     @Autowired
     private MemberRepository memberRepository;
