@@ -12,6 +12,8 @@ import security.security1.app.model.Member;
 import security.security1.app.repository.MemberRepository;
 import security.security1.config.auth.PrincipalDetails;
 
+import java.util.Map;
+
 @Service
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 
@@ -25,19 +27,30 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
         System.out.println("getClientRegistration:"+userRequest.getClientRegistration());
         System.out.println("getAccessToken:"+userRequest.getAccessToken().getTokenValue());
 
-        OAuth2User oAuth2User = super.loadUser(userRequest);
-        System.out.println("getAttributes:"+oAuth2User.getAttributes());
+        OAuth2User oauth2User = super.loadUser(userRequest);
+        System.out.println("getAttributes:"+oauth2User.getAttributes());
 
-        String provider = userRequest.getClientRegistration().getClientId();//google
-        String providerId = oAuth2User.getAttribute("sub");
+        OAuth2UserInfo oAuth2UserInfo = null;
+        if(userRequest.getClientRegistration().getRegistrationId().equals("google")){
+            System.out.println("구글 로그인 요청");
+            oAuth2UserInfo = new GoogleUserInfo(oauth2User.getAttributes());
+        } else if(userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
+            System.out.println("네이버 로그인 요청");
+            oAuth2UserInfo = new NaverUserInfo((Map)oauth2User.getAttributes().get("response"));
+        } else {
+            System.out.println("구글 네이버만 지원합니다.");
+        }
+        String provider = oAuth2UserInfo.getProvider();
+        String providerId = oAuth2UserInfo.getProviderId();
         String username = provider+"_"+providerId;
         String password = bCryptPasswordEncoder.encode("겟인데어");
-        String email = oAuth2User.getAttribute("email");
+        String email = oAuth2UserInfo.getEmail();
         String role = "ROLE_USER";
 
         Member memberEntity = memberRepository.findByName(username);
 
         if(memberEntity == null){
+            System.out.println("[최초 로그인]");
             memberEntity = Member.builder()
                     .name(username)
                     .password(password)
@@ -47,8 +60,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
                     .providerId(providerId)
                     .build();
             memberRepository.save(memberEntity);
-
+        }else{
+            System.out.println("이미 로그인 한 적 있습니다.");
         }
-        return new PrincipalDetails(memberEntity,oAuth2User.getAttributes());
+        return new PrincipalDetails(memberEntity,oauth2User.getAttributes());
     }
 }
