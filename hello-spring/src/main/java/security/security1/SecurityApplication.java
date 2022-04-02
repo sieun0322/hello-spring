@@ -14,7 +14,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *      2. 세션 전체 복제
  *      3. 한 데이터베이스에서 공유 (I/O. 하드디스크 오래 걸림. FULL SCAN)
  *      4. 메모리 서버 사용 (전기적 신호 RAM. 하드디스크보다 빠름) ex. REDIS
- */
+ *
+ * 2장. TCP
+ * - 통신 OSI 7계층 : 물리/데이터링크//네트워크/트렌스포트/세션/프리젠테이션/응용
+ *              ex)전기선/공유기에서 해당 IP 찾음 ---LAN//IP/TCP.UDP 통신/인증체크/암호화.압축/롤 프로그램:궁 --WAN
+ * - TCP : 데이터가 제대로 전송되었는지 ACK 로 확인. 신뢰성O. 느림
+ * - UDP : 전화에서 사용. 신뢰성X. 빠름 ex) 반가워 ->반 워 사람은 이해할수 있다.
+ *
+ *
+ **/
 @SpringBootApplication(scanBasePackages = "security.security1")
 public class SecurityApplication {
     public static void main(String[] args){
