@@ -21,7 +21,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * - TCP : 데이터가 제대로 전송되었는지 ACK 로 확인. 신뢰성O. 느림
  * - UDP : 전화에서 사용. 신뢰성X. 빠름 ex) 반가워 ->반 워 사람은 이해할수 있다.
  *
+ *3장. CIA
+ * -C(기밀성):다른 나라에서 문서 획득X
+ *          - 암호화: 열지 못함
+ * -I(무결성):문서 변경X
+ *          - 딱 붙어있어야 한다. 금고 전체 변경 불가
+ * -A(가용성):위조된 문서가 전송X
  *
+ * 문제1: 열쇠 전달의 문제
+ * 문제2: 문서 누구로부터 왔는지
  **/
 @SpringBootApplication(scanBasePackages = "security.security1")
 public class SecurityApplication {
