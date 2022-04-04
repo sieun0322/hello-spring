@@ -30,6 +30,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  * 문제1: 열쇠 전달의 문제
  * 문제2: 문서 누구로부터 왔는지
+ *
+ * 4장 RSA(암호화)
+ * public key : 공개키
+ * private key : 개인키
+ *
+ * 문제1: B의 공개키로 암호화 -> B가 B의 개인키로 연다.
+ * 문제2: A의 개인키로 암호화 -> B가 A의 공개키로 열리면 A가 보냈구나
+ *
+ * 공개키 -> 개인키(암호화)
+ * 개인키 -> 공개키(전자서명)
+ *
+ * B공개키 + A개인키 : A공개키로 열리면 B개인키로 열어본다. : 인증+암호화
+ *
  **/
 @SpringBootApplication(scanBasePackages = "security.security1")
 public class SecurityApplication {
