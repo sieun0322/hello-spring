@@ -43,6 +43,46 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  * B공개키 + A개인키 : A공개키로 열리면 B개인키로 열어본다. : 인증+암호화
  *
+ * 5장 RFC
+ * http 벨연구소 WWW
+ * 두 내부방 사이의 약속된 규칙 : RFC 1번 문서(방식을 프로토콜이라 함)...=>WWW(http프로토콜)
+ *
+ * JWT : RFC 7519번째 규칙을 활용.
+ *
+ * 6장 JWT(JSON Web Token)
+ * : JSON 객체로 안전하게 전송하기 위한 표준
+ * - HMAC 또는 RSA 또는 ECDSA
+ * - 공개/개인 키 쌍을 사용하여 서명
+ * - 서명된 토큰 중점. 무결성 확인
+ *
+ * 구조: 헤더(header).유효 탑재량(payload).서명(signature)
+ *
+ * 헤더: 토큰유형/서명알고리즘
+ *      Base64Url 로 인코딩 (디코딩가능)
+ * 유효 탑재량 : 클레임을 포함하는 페이로드
+ *          * 클레임 : 엔티티(사용자), 추가 데이터에 대한 설명
+ *     - 등록된 클레임 : 권장되는 미리 정의된 클레임 집합
+ *          ex) iss(발행자) exp(만료시간) sub(주제) aud(청중)
+ *     - 공개 소유권 주장
+ *     - 개인 클레임 : 사용자 지정 클레임
+ *     Base64Url 로 인코딩 (복호화가능)
+ * 서명 : 인코딩된 헤더/페이로드/지정된 알고리즘을 가져와서 서명
+ *       Base64Url 로 인코딩 (디코딩가능)
+ *    - 개인키로 서명된 토큰은 발신자 확인 가능
+ *  1) HMAC방식     + HMAC 시크릿키 포함
+ *                 + SHA256 해쉬
+ *                  => HS256
+ *  2) RSA 방식
+ *     :개인키로 암호화 -> 공개키로 서명 검증
+ *
+ * 웹브라우저의 로컬스토리지에 저장.
+ * 서버에 정보요청시 JWT 함께 전송.
+ *  1) HMAC 방식: 서버에서 검증(서버에서 알고 있는 시크릿키에 따라 만든 서명과 전송된 서명이 같은지 확인)후 정보 전송
+ *  2) RSA 방식: 서버에서 공개키로 검증 후 정보 전송
+ *
+ * 결론 : 검증만 하면 되므로 세션을 사용하지 않는다.
+ *       각 서버에서 시크릿 코드만 알고 있으면 검증 가능하다.
+ *
  **/
 @SpringBootApplication(scanBasePackages = "security.security1")
 public class SecurityApplication {
