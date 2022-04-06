@@ -29,6 +29,7 @@ dependencies {
 	implementation 'javax.inject:javax.inject:1'
 	implementation 'org.springframework.boot:spring-boot-starter-mustache'
 	//implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation group: 'com.auth0', name: 'java-jwt', version: '3.19.0'
 
 	//lombok
 	compileOnly 'org.springframework.boot:spring-boot-starter-mustache'
