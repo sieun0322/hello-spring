@@ -6,7 +6,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
+import security.jwt.filter.MyFilter1;
+import security.jwt.filter.MyFilter3;
 
 @Configuration
 @EnableWebSecurity
@@ -16,6 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     private final CorsFilter corsFilter;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.addFilterBefore(new MyFilter3(), BasicAuthenticationFilter.class);
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)//세션 사용X
                 .and()
