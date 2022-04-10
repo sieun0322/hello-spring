@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
+import security.jwt.config.jwt.JwtAuthenticationFilter;
 import security.jwt.filter.MyFilter1;
 import security.jwt.filter.MyFilter3;
 
@@ -26,6 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .addFilter(corsFilter)//@CrossOrigin(인증x),시큐리티 필터에 등록 인증o
                 .formLogin().disable()
                 .httpBasic().disable()//http-authorization : ID,PW 암호화되지 않는다.(Basic 방식)=>https 사용. 토큰: 위험부담 낮춤(Bearer 방식, 유효시간 존재)
+                .addFilter(new JwtAuthenticationFilter(authenticationManager()))//AuthenticationManager
                 .authorizeRequests()
                 .antMatchers("/api/v1/user/**")
                 .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
