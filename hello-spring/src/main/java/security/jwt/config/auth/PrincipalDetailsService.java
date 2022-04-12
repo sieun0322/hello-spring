@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import security.jwt.MemberRepository;
+import security.jwt.repository.MemberRepository;
 import security.jwt.model.Member;
 
 //http://localhost:8080/login SeurityConfig 자동 설정
