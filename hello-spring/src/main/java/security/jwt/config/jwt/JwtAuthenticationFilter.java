@@ -1,5 +1,7 @@
 package security.jwt.config.jwt;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Date;
 
 /**
 스프링 시큐리티에 UsernamePasswordAuthenticationFilter 존재
@@ -60,6 +63,16 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     //요창자에게 JWT토큰 response
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        super.successfulAuthentication(request, response, chain, authResult);
+        PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
+
+        //Hash 암호방식.
+        String jwtToken = JWT.create()
+                .withSubject("cos토큰")
+                .withExpiresAt(new Date(System.currentTimeMillis()+(60000*10))) //10분
+                .withClaim("id",principalDetails.getMember().getId())
+                .withClaim("username",principalDetails.getMember().getName())
+                .sign(Algorithm.HMAC512("cos"));
+        response.addHeader("Authorization","Bearer "+jwtToken);
+        //super.successfulAuthentication(request, response, chain, authResult);
     }
 }
