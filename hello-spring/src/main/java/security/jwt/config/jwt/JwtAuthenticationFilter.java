@@ -65,7 +65,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
 
-        //Hash 암호방식.
+        //Hash 암호방식.RSA X
         String jwtToken = JWT.create()
                 .withSubject("cos토큰")
                 .withExpiresAt(new Date(System.currentTimeMillis()+(60000*10))) //10분
