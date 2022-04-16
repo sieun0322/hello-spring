@@ -68,11 +68,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         //Hash 암호방식.RSA X
         String jwtToken = JWT.create()
                 .withSubject("cos토큰")
-                .withExpiresAt(new Date(System.currentTimeMillis()+(60000*10))) //10분
+                .withExpiresAt(new Date(System.currentTimeMillis()+(JwtProperties.EXPIRATION_TIME))) //10분
                 .withClaim("id",principalDetails.getMember().getId())
                 .withClaim("username",principalDetails.getMember().getName())
-                .sign(Algorithm.HMAC512("cos"));
-        response.addHeader("Authorization","Bearer "+jwtToken);
+                .sign(Algorithm.HMAC512(JwtProperties.SECRET));
+        response.addHeader(JwtProperties.HEADER_STRING,JwtProperties.TOKEN_PREFIX+jwtToken);
         //super.successfulAuthentication(request, response, chain, authResult);
     }
 }

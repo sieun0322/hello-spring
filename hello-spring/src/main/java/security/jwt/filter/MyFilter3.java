@@ -24,6 +24,8 @@ public class MyFilter3 implements Filter {
                 PrintWriter out = res.getWriter();
                 out.println("인증안됨");
             }
+        }else{
+            chain.doFilter(req,res);
         }
     }
 }

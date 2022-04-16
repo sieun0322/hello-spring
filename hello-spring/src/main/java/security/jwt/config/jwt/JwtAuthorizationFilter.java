@@ -32,39 +32,37 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     private MemberRepository memberRepository;
     public JwtAuthorizationFilter(AuthenticationManager authenticationManager,MemberRepository memberRepository) {
         super(authenticationManager);
-        memberRepository = memberRepository;
+        this.memberRepository = memberRepository;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        super.doFilterInternal(request, response, chain);
-        System.out.println("authorization Filter!!");
-        String jwtHeader = request.getHeader("Authorization");
+        //super.doFilterInternal(request, response, chain);
+        System.out.println("인증이나 권한이 필요한 주소 요청이 됨.");
+        String jwtHeader = request.getHeader(JwtProperties.HEADER_STRING);
         System.out.println("jwtHeader:"+jwtHeader);
 
-        if(jwtHeader == null || !jwtHeader.startsWith("Bearer")){
+        if(jwtHeader == null || !jwtHeader.startsWith(JwtProperties.TOKEN_PREFIX)){
             chain.doFilter(request,response);
             return;
         }
 
         /**정상 사용자 확인
          */
-        String jwtToken = request.getHeader("Authorization").replace("Bearer ","");
+        String jwtToken = request.getHeader(JwtProperties.HEADER_STRING).replace(JwtProperties.TOKEN_PREFIX,"");
         String username
-                = JWT.require(Algorithm.HMAC512("cos")).build().verify(jwtToken).getClaim("username").asString();
+                = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken).getClaim("username").asString();
 
         if(username !=null){
             Member memberEntity = memberRepository.findByName(username);
-
             PrincipalDetails principalDetails = new PrincipalDetails(memberEntity);
-
             //JWT 토큰 서명을 통해서 서명이 정상이면 확인된 사용자 이므로 강제로 생성
             Authentication authentication =
-                    new UsernamePasswordAuthenticationToken(principalDetails,null);
+                    new UsernamePasswordAuthenticationToken(principalDetails,null,principalDetails.getAuthorities());
             //시큐리티 세션에 접근하여 Authentication 객체 저장
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            chain.doFilter(request,response);
-        }
 
+        }
+        chain.doFilter(request,response);
     }
 }
