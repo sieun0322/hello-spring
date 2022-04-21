@@ -1,0 +1,27 @@
+*API Gateway Service
+
+마이크로 서비스를 직접적으로 접근하지 않기 위한 단일 진입점
+-인증/권한
+-서비스 검색
+-응답캐싱
+-정책, 회로 차단기
+-속도 제한
+-부하 분산
+-로깅, 추적
+-헤더 쿼리 문자열 청구 변환
+-IP 허용
+
+Spring Cloud MSA 통신
+
+-RestTemplate
+-Feign Client : 인터페이스앞 어노테이션 설정. 이름으로 호출가능
+
+Ribbon : client side load Balancer(클라이언트 안에 위치)
+         비동기X
+         Health Check
+         ip와 Port가 아닌 이름으로 호출 가능.
+         현재는 Maintenance 새로운 업데이트X
+Zuul : Routing, API Gateway. Maintenance mode
+
+
+
