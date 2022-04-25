@@ -19,4 +19,8 @@ public class FirstServiceController {
         log.info(header);
         return "Hello word in First Service.";
     }
+    @GetMapping("/check")
+    public String check(){
+        return "Hi word in First Service.";
+    }
 }
