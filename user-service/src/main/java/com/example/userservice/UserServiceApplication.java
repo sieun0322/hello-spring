@@ -15,6 +15,8 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
  * 	mvn compile package
  * 	java -jar -Dserver.port=9004 ./target/user-service-0.0.1-SNAPSHOT.jar
  *
+ * 포트 0으로 설정시,
+ * mvn spring-boot:run
  */
 @SpringBootApplication
 @EnableEurekaClient
