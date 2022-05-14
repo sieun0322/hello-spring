@@ -1,8 +1,10 @@
 package com.example.userservice.security;
 
+import com.example.userservice.service.UserService;
 import com.example.userservice.vo.RequestLogin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,6 +23,10 @@ import java.util.ArrayList;
 @Configuration
 @EnableWebSecurity
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
+    public AuthenticationFilter(AuthenticationManager authenticationManager) {
+        this.setAuthenticationManager(authenticationManager);
+    }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
@@ -42,7 +48,9 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request,
-                                            HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+                                            HttpServletResponse response,
+                                            FilterChain chain,
+                                            Authentication authResult) throws IOException, ServletException {
         super.successfulAuthentication(request, response, chain, authResult);
     }
 }
