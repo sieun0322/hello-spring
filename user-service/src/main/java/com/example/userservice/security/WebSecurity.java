@@ -28,16 +28,16 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        //http.authorizeRequests().antMatchers("/users/**").permitAll();
-        http.authorizeRequests().antMatchers("/**")
-                .hasIpAddress("")
+        http.authorizeRequests().antMatchers("/users/**").permitAll()
+        //http.authorizeRequests().antMatchers("/**")
+                //.access("hasIpAddress('"+""+"')")
                 .and()
                 .addFilter(getAuthenticationFilter());
         http.headers().frameOptions().disable();//frame 으로 구별되어 있는 페이지 오류확인
     }
 
     private AuthenticationFilter getAuthenticationFilter() throws Exception {
-        AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager());
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManagerBean());
         //authenticationFilter.setAuthenticationManager(authenticationManager());
         return authenticationFilter;
     }
@@ -45,5 +45,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
+    }
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 }
