@@ -1,10 +1,12 @@
 package com.example.userservice.security;
 
+import com.example.userservice.dto.UserDto;
 import com.example.userservice.service.UserService;
 import com.example.userservice.vo.RequestLogin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,7 +29,19 @@ import java.util.ArrayList;
 @EnableWebSecurity
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    public AuthenticationFilter(AuthenticationManager authenticationManager) {
+	private UserService userService;
+	private Environment env;
+	
+	
+	
+    public AuthenticationFilter(AuthenticationManager authenticationManager
+    		,UserService userService, Environment env) {
+		super.setAuthenticationManager(authenticationManager);
+		this.userService = userService;
+		this.env = env;
+	}
+
+	public AuthenticationFilter(AuthenticationManager authenticationManager) {
         this.setAuthenticationManager(authenticationManager);
     }
 
@@ -56,6 +70,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                             Authentication authResult) throws IOException, ServletException {
 
         super.successfulAuthentication(request, response, chain, authResult);
-        log.debug(((User)authResult.getPrincipal()).getUsername());
+        
+        String userName = ((User)authResult.getPrincipal()).getUsername();
+        UserDto userDetails = userService.getUserDetailsByEmail(userName);
     }
 }
