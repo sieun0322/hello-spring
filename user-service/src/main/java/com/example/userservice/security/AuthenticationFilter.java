@@ -35,8 +35,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	private UserService userService;
 	private Environment env;
 	
-	
-	
     public AuthenticationFilter(AuthenticationManager authenticationManager
     		,UserService userService, Environment env) {
 		super.setAuthenticationManager(authenticationManager);
