@@ -44,10 +44,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 		this.env = env;
 	}
 
-	public AuthenticationFilter(AuthenticationManager authenticationManager) {
-        this.setAuthenticationManager(authenticationManager);
-    }
-
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
@@ -72,8 +68,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                             FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
 
-        super.successfulAuthentication(request, response, chain, authResult);
-        
         String userName = ((User)authResult.getPrincipal()).getUsername();
         UserDto userDetails = userService.getUserDetailsByEmail(userName);
 
