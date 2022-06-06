@@ -77,5 +77,10 @@ spring:
                 baseMessage: Hi
                 preLogger: true
                 postLogger: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, httptrace
 token:
   secret: user_tokens
