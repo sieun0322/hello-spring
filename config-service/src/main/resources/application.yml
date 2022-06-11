@@ -3,8 +3,13 @@ server:
 spring:
     application:
         name: config-service
+#    profiles:
+#        active: native
     cloud:
         config:
             server:
+#                native:
+#                  search-locations: file:///Users/zion/IdeaProjects/native-file-repo
                 git:
                     uri: file:///Users/zion/IdeaProjects/git-local-repo
+                    default-label: master
