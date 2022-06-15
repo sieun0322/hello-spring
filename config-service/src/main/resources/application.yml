@@ -14,9 +14,10 @@ spring:
         config:
             server:
 #                native:
-#                  search-locations: file:///Users/zion/IdeaProjects/native-file-repo
+#                  search-locations: file://${user.home}/IdeaProjects/native-file-repo
                 git:
-                    uri: file:///Users/zion/IdeaProjects/git-local-repo
+#                    uri: file:///Users/zion/IdeaProjects/git-local-repo
+                    uri: https://github.com/sieun0322/spring-cloud-config
                     default-label: master
 management:
     endpoints:
