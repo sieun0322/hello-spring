@@ -17,7 +17,7 @@ spring:
 #                  search-locations: file:///Users/zion/IdeaProjects/native-file-repo
                 git:
                     uri: file:///Users/zion/IdeaProjects/git-local-repo
-#                    default-label: origin/master
+                    default-label: master
 management:
     endpoints:
         web:
