@@ -9,6 +9,11 @@ eureka:
 spring:
   application:
     name: apigateway-service
+  profiles:
+    active: default
+  config:
+    import: optional:configserver:http://localhost:8888
+  #    use-legacy-processing: true
   rabbitmq:
     host: 127.0.0.1
     port: 5672
@@ -89,8 +94,8 @@ spring:
                 baseMessage: Hi
                 preLogger: true
                 postLogger: true
-token:
-  secret: user_token
+#token:
+#  secret: user_token
 
 management:
   endpoints:
