@@ -18,11 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/order-service/")
+@RequestMapping("/")
 public class OrderController {
     private Environment env;
     private OrderService orderService;
 
+    @Autowired
     public OrderController(Environment env, OrderService orderService) {
         this.env = env;
         this.orderService = orderService;
@@ -33,7 +34,7 @@ public class OrderController {
         return String.format("It's Working in Order Service on Port %s"
         ,env.getProperty("local.server.port"));
     }
-    @PostMapping("{userId}/orders")
+    @PostMapping("/{userId}/orders")
     public ResponseEntity<ResponseOrder> createOrder(@PathVariable("userId") String userId
                                                         ,@RequestBody RequestOrder orderDetails){
         ModelMapper mapper = new ModelMapper();
@@ -47,7 +48,7 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseOrder);
     }
 
-    @GetMapping("{userId}/orders")
+    @GetMapping("/{userId}/orders")
     public ResponseEntity<List<ResponseOrder>> getOrder(@PathVariable("userId")String userId){
         Iterable<OrderEntity> orderList = orderService.getOrdersByUserId(userId);
 

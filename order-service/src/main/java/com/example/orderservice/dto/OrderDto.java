@@ -14,4 +14,6 @@ public class OrderDto implements Serializable {
 
     private String orderId;
     private String userId;
+
+    private Date createdAt;
 }
