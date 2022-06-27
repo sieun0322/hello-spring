@@ -5,15 +5,11 @@ import com.example.userservice.dto.UserDto;
 import com.example.userservice.jpa.UserEntity;
 import com.example.userservice.jpa.UserRepository;
 import com.example.userservice.vo.ResponseOrder;
-import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -82,21 +78,25 @@ public class UserServiceImpl implements UserService {
         UserDto userDto = new ModelMapper().map(userEntity,UserDto.class);
         //List<ResponseOrder> orders = new ArrayList<>();
 
-        /*
-        RestTemplate
+        /* 1. RestTemplate
         String orderUrl = String.format(env.getProperty("order_service.url"),userId);
         ResponseEntity<List<ResponseOrder>> orderListResponse =
                 restTemplate.exchange(orderUrl, HttpMethod.GET, null, new ParameterizedTypeReference<List<ResponseOrder>>() {
         });
         List<ResponseOrder> orderList = orderListResponse.getBody();
         */
+
+        /* 2. Feign Client Exception 예외처리
         List<ResponseOrder> orderList = null;
         try{
             orderList = orderServiceClient.getOrders(userId);
-
         }catch(FeignException ex){
             log.error(ex.getMessage());
         }
+         */
+
+        //3. Feign Client ErrorDecoder 예외처리
+        List<ResponseOrder> orderList = orderServiceClient.getOrders(userId);
         userDto.setOrders(orderList);
         return userDto;
     }
@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserService {
 		if(userEntity== null) {
 			throw new UsernameNotFoundException(email);
 		}
-		UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);;
+		UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
 		return userDto;
 	}
 }
