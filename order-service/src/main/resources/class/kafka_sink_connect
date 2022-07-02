@@ -38,5 +38,5 @@ echo '
 #3 topic 검색
 ./bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
 
-#4 해당 topic Consumer 설정
-./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic [TOPIC_NAME] --from-beginning
+#4 해당 topic Producer 설정
+./bin/kafka-console-Producer.sh --bootstrap-server localhost:9092 --topic [TOPIC_NAME] --from-beginning
