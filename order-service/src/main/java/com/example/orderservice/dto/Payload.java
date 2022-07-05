@@ -1,10 +1,11 @@
 package com.example.orderservice.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
+@Builder
 public class Payload {
     private String order_id;
     private String user_id;
