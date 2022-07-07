@@ -22,6 +22,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/")
+@Slf4j
 public class OrderController {
     private Environment env;
     private OrderService orderService;
@@ -67,6 +68,7 @@ public class OrderController {
 
     @GetMapping("/{userId}/orders")
     public ResponseEntity<List<ResponseOrder>> getOrder(@PathVariable("userId")String userId){
+        log.info("order before");
         Iterable<OrderEntity> orderList = orderService.getOrdersByUserId(userId);
 
         List<ResponseOrder> result = new ArrayList<>();
@@ -74,6 +76,7 @@ public class OrderController {
         orderList.forEach(v->{
             result.add(new ModelMapper().map(v,ResponseOrder.class));
         });
+        log.info("order after");
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }

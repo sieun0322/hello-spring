@@ -7,6 +7,13 @@ spring:
 #    active: default
 #  config:
 #    import: optional:configserver:http://localhost:8888
+  zipkin:
+    base-uri: http://127.0.0.1:9411
+    enabled: true
+  sleuth:
+    sampler:
+      probability: 1.0
+
   rabbitmq:
     host: 127.0.0.1
     port: 5672

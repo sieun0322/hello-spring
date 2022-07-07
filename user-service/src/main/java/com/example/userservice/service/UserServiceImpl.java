@@ -103,9 +103,11 @@ public class UserServiceImpl implements UserService {
         /*3. Feign Client ErrorDecoder 예외처리
         List<ResponseOrder> orderList = orderServiceClient.getOrders(userId);
          */
+        log.info("before");
         CircuitBreaker circuitBreaker = circuitBreakerFactory.create("circuitBreaker");
         List<ResponseOrder> orderList = circuitBreaker.run(()->orderServiceClient.getOrders(userId),
                             throwable -> new ArrayList<>());
+        log.info("after");
 
         userDto.setOrders(orderList);
 
