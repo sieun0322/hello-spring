@@ -4,8 +4,12 @@ server:
 spring:
   application:
     name: order-service
-  security:
-    enable-csrf: false
+  zipkin:
+    base-uri: http://127.0.0.1:9411
+    enabled: true
+  sleuth:
+    sampler:
+      probability: 1.0
   h2:
     console:
       enabled: true
@@ -37,3 +41,8 @@ eureka:
 logging:
   level:
     com.example.orderservice: DEBUG
+management:
+  endpoints:
+    web:
+      exposure:
+        include:  health, httptrace, info, metrics, prometheus

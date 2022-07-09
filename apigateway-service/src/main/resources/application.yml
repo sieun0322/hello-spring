@@ -9,10 +9,10 @@ eureka:
 spring:
   application:
     name: apigateway-service
-  profiles:
-    active: default
-  config:
-    import: optional:configserver:http://localhost:8888
+#  profiles:
+#    active: default
+#  config:
+#    import: optional:configserver:http://localhost:8888
   #    use-legacy-processing: true
   rabbitmq:
     host: 127.0.0.1
@@ -73,6 +73,10 @@ spring:
           uri: lb://ORDER-SERVICE
           predicates:
             - Path=/order-service/**
+            - Method=GET, POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/order-service/(?<segment>.*), /$\{segment}
         - id: first-service
           uri: lb://MY-FIRST-SERVICE
           predicates:
@@ -101,4 +105,4 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh, health, beans, httptrace, busrefresh
+        include: refresh, health, beans, httptrace, busrefresh, info, metrics, prometheus
