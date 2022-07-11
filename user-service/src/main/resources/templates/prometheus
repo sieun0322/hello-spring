@@ -18,3 +18,4 @@
       - targets: ['localhost:8000']
 #실행
 ./prometheus --config.file=prometheus.yml
+./bin/grafana-server
