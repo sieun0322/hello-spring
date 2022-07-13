@@ -67,26 +67,48 @@ docker run [options] image[:tag|@digest][command][arg...]
 hub.docker.com
 
 #이미지 다운로드
-
 $docker pull ubuntu:16.04
 
 #이미지 검색
-
 $docker images | grep ubuntu
 
 #이미지 실행
-
 $docker run ubuntu:16.04
 
 #실행 컨테이너 검색
 
 $docker container ls -a
-
 $docker ps -a
 
 #컨테이너 삭제
+docker container rm [containerId]
 
-rm [containerId]
+#Mysql 컨테이너 실행
+
+$ docker run -d -p 3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=true --name mariadb mariadb:latest
+docker logs mariadb
+
+docker pull mysql:5.7
+
+#실행
+docker exec -it mariadb /bin/bash
+
+#로그인
+mysql -uroot -p -h127.0.0.1
+
+#실행 정지
+docker start/stop [container]
+
+#컴파일(테스트 파일 제외)
+mvn clean compile package -DskipTests=true
+
+#User 마이크로서비스 이미지 생성
+
+$ docker  build  -t  [HUBDOCKERID]/users-service:1.0  .
+
+$ docker push [HUBDOCKERID]/user-service:1.0
+
+$ docker pull [HUBDOCKERID]/user-service:1.0
 
 
 
