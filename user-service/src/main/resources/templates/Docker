@@ -110,8 +110,24 @@ $ docker push [HUBDOCKERID]/user-service:1.0
 
 $ docker pull [HUBDOCKERID]/user-service:1.0
 
+#도커 전체 삭제
+docker system prune
 
 
+##도커 네트워크 설정
+-명령어 검색
+docker network ls
+
+docker network create --gateway 172.18.0.1 --subnet 172.18.0.0/16 ecommerce-network
+docker network ls
+
+docker network inspect ecommerce-network
+
+일반적인 컨테이너는 각각 ip address 를 가진다.
+어떠한 환경에서 ip가 변경 될 경우, 모든 설정을 바꾸어야 한다.
+
+같은 네트워크를 가질 경우, ip address가 변경되어도, 컨테이너 이름으로 연결 가능하다.
+때문에 가상의 네트워크를 설정해야 한다.
 
 
 
