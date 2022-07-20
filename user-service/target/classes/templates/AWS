@@ -1,7 +1,32 @@
 ELB(로드밸런서)
 
 기능:부하분배
+-Health Check
+-Auth Scaling 연동 가능
+-IP 고정불가능 -> 도메인 기반
+종류
+1. Application
+-트래픽을 모니터링 하여 라우팅한다.
+-주소에 따라 특정 서버로 라우팅한다.
 
+2.Network
+-TCP 기반 빠른 트래픽 분산
+-Elastic IP 할당 가능
+
+3. Gateway
+-먼저 트래픽 분석
+-방화벽, 캐싱, 인증, 로깅
+
+대상그룹
+: ALB 라우팅 대상집합
+-Instance, Private IP, Lambda, ALB
+-프로토콜 : HTTP, HTTPS, gRPC
++ 트래픽 분산 알고리즘, 고정세션
+
+**Auto scaling 그룹입장, ELB 입장의 상태확인이 다를수 있다.
+EC2는 켜져 있으나, WAB 서비스 응답이 불가할 경우 (502 Error)
+
+AWS 실습
 1. 기본설정
 Load Balancer Port -> Instance Port : 같아도 달라도 된다.
 기본적으로 로드밸런서의 프로토콜에 HTTP를 사용하고 추가적으로 HTTPS 를 사용한다.
