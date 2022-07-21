@@ -1,0 +1,30 @@
+EC2(Elastic Compute Cloud) - CPU, RAM
+: 시장대응이 빠르다.
+  사용한 만큼 비용 지불
+           1. On-Demand : 인스턴스의  시간.초당 컴퓨팅 파워로 측정된 가격
+                          약정X
+                          장기적X
+                          한번 써보고 싶을 때
+           2. Spot Instance : 90% 저렴
+                              언제 내주어야 하는지 모름
+                              시작.종료가 자유로울 때 (빅데이터 분석. 보조)
+           3. Reserved Instance(RI) : 1-3년 약정해서 쓰는 방식
+                                      75% 저렴
+                                      수요예측 확실할 때
+           4. Dedicated(전용 호스트) : 실제 물리적 서버 임대
+                                    라이선스 이슈
+                                    비싸다.
+- 종류
+범용 : t2, m5
+컴퓨팅 최적화 : c5, f1
+메모리 최적화 : r4, xle, p3
+저장 최적화 : h1, i3, d2
+
+- 아파치 설치
+$ sudo -s
+$ yum install httpd -y
+$ service httpd start
+$ chkconfig httpd on 인스턴스가 restart 되어도 자동으로 아파치 실행
+$ cp [파일 이름] /var/www/html ** 파일이동권한이 없을 때 이동하여 넣을수 있다.
+
+
