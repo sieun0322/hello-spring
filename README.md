@@ -1,5 +1,5 @@
 # hello-spring
-스프링(기본, 고급, 시큐리티, JWT, MSA)
+스프링(기본, 고급, 시큐리티, JWT, MSA, Kafka)
 
 inflearn
 * 스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술
